@@ -7,10 +7,14 @@ const gameData = {
 };
 
 let game = document.getElementById('game');
-game.addEventListener('mousedown', eventHandler);
 
 function eventHandler(event) {
-    if (gameData.currentChipId === 0) {
+    //перехват нажатия на поле
+    if (event.target.id === 'game') {
+        return;
+    }
+    let classTargetCell = event.target.className.split(' ');
+    if (gameData.currentChipId === 0 && classTargetCell.length !== 1) {
         checkMove(event.target.id);
     } else {
         move(event.target);
@@ -55,10 +59,21 @@ function checkingTheCompletionOfTheGame() {
         }
     }
     if (chip1 === 5 && chip2 === 5 && chip3 === 5) {
-        document.getElementById('win').innerHTML = `Поздравляем! Вы завершили игру за ${gameData.countMove} ходов) Попробуйте завершить за меньшее число ходов!`;
+        document.getElementById('win').innerHTML = `Поздравляем! Вы завершили игру за ${gameData.countMove} ${getWordMove(gameData.countMove)}) Попробуйте завершить за меньшее число ходов!`;
     }
 }
-// Добавить счетчик ходов
+
+function getWordMove(countMove) {
+    let word = 'ход'
+    let reminderOfTen = countMove % 10;
+    let reminderOfHundred = countMove % 100;
+    if (reminderOfTen == 0 || (reminderOfTen > 4 && reminderOfTen < 10) || (reminderOfHundred > 10 && reminderOfHundred < 15)) {
+        word += 'ов';
+    } else if (reminderOfTen > 1 && reminderOfTen < 5) {
+        word += 'а';
+    }
+    return word;
+}
 
 function cleaningPreviousAccessMove() {
     let row = Math.floor(gameData.currentChipId / 10);
@@ -109,7 +124,6 @@ function checkMove(currentId) {
     let accessMove = 0;
     let row = Math.floor(currentId / 10);
     let column = currentId % 10;
-    console.log(currentId, row, column)
     //up
     if (row !== 1 && column % 2 != 0) {
         let upCell = document.getElementById(`${row - 1}${column}`)
@@ -167,6 +181,7 @@ function creatingGameField() {
         column++;
         game.appendChild(cell);
     }
+    document.getElementById('count-move').innerHTML = gameData.countMove;
 }
 
 function restartGame() {
@@ -195,6 +210,7 @@ function changeButtonFromRestartToStart() {
 }
 
 function startGame() {
+    game.addEventListener('mousedown', eventHandler);
     fillingGameField();
     changeButtonFromStartToRestart();
 }
@@ -202,7 +218,7 @@ function startGame() {
 function fillingGameField() {
     let cells = game.childNodes;
     let number = 0;
-
+    
     for (let cell of cells) {
         if (Number(cell.id) % 2 == 1) {
             do {
