@@ -36,7 +36,8 @@ html {
 }
 
 #hidden-chip {
-    border: 2px solid none;
+    border: 2px solid;
+    border-color: transparent;
 }
 
 #control {
