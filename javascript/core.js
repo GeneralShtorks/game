@@ -60,6 +60,7 @@ function checkingTheCompletionOfTheGame() {
     }
     if (chip1 === 5 && chip2 === 5 && chip3 === 5) {
         document.getElementById('win').innerHTML = `Поздравляем! Вы завершили игру за ${gameData.countMove} ${getWordMove(gameData.countMove)}) Попробуйте завершить за меньшее число ходов!`;
+        document.getElementById('win').style.backdropFilter = "blur(20px)";
     }
 }
 
@@ -172,7 +173,7 @@ function creatingGameField() {
     let column = 1;
     for (let i = 1; i <= 25; i++) {
         let cell = document.createElement('div');
-        cell.className = 'cell';
+        // cell.className = 'cell';
         if (column === 6) {
             row += 10;
             column = 1;
@@ -189,6 +190,8 @@ function restartGame() {
     deletingGameField();
     creatingGameField();
     changeButtonFromRestartToStart();
+    document.getElementById('win').innerHTML = "";
+    document.getElementById('win').style.backdropFilter = "blur(0px)";
 }
 
 function cleaningGameData() {

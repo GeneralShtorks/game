@@ -35,6 +35,16 @@ html {
     border: 2px solid blue;
 }
 
+#start,
+#restart {
+    backdrop-filter: blur(20px);
+}
+
+#start:active,
+#restart:active {
+    transform: translate(0em, 0.05em);
+}
+
 #hidden-chip {
     border: 2px solid;
     border-color: transparent;
@@ -78,7 +88,6 @@ input {
 .win {
     margin: auto;
     width: 360px;
-    height: 15px;
     border: none;
     font-size: large;
     text-align: center;
@@ -90,6 +99,14 @@ div {
 }
 
 .cell {
+    box-sizing: border-box;
+    border-radius: 32px;
+    width: 68px;
+    height: 68px;
+    margin: 2px;
+}
+
+#game > div {
     box-sizing: border-box;
     border-radius: 32px;
     width: 68px;
